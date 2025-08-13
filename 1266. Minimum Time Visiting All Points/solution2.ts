@@ -21,9 +21,9 @@ function minTimeToVisitAllPoints(points: [number, number][]): number {
   for (let i = 1; i < points.length; i++) {
     const current = points[i - 1];
     const target = points[i];
-    const dx = target[0] - current[0];
-    const dy = target[1] - current[1];
-    const dMax = Math.abs(Math.max(dx, dy));
+    const dx = Math.abs(target[0] - current[0]);
+    const dy = Math.abs(target[1] - current[1]);
+    const dMax = Math.max(dx, dy);
     time += dMax;
     console.log({ dMax, time });
   }
