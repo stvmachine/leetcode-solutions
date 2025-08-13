@@ -1,38 +1,67 @@
-# 1266. Minimum Time Visiting All Points
-On a 2D plane, there are n points with integer coordinates `points[i] = [xi, yi]`. Return the minimum time in seconds to visit all the points in the order given by points.
+# Intuition
+At first, I considered simulating the movement step-by-step:
+always moving diagonally when possible (since a diagonal covers both an x and y step in a single second), then moving horizontally or vertically if one coordinate is already aligned.
 
-You can move according to these rules:
-
-- In 1 second, you can either:
-  - move vertically by one unit,
-  - move horizontally by one unit, or
-  - move diagonally sqrt(2) units (in other words, move one unit vertically then one unit horizontally in 1 second).
-- You have to visit the points in the same order as they appear in the array.
-- You are allowed to pass through points that appear later in the order, but these do not count as visits.
- 
-
-![Example 1](1626_example_1.png)
-
-**Example 1:**
+However, after implementing this, I realized the number of diagonal moves between two points can be computed directly.
+The maximum number of diagonal moves you can make is `min(dx, dy)`, where:
 
 ```
-Input: points = [[1,1],[3,4],[-1,0]]
-Output: 7
-Explanation: One optimal path is [1,1] -> [2,2] -> [3,3] -> [3,4] -> [2,3] -> [1,2] -> [0,1] -> [-1,0]   
-Time from [1,1] to [3,4] = 3 seconds 
-Time from [3,4] to [-1,0] = 4 seconds
-Total time = 7 seconds
+dx = |x₂ - x₁|
+dy = |y₂ - y₁|
 ```
 
-**Example 2:**
+because each diagonal move reduces both dx and dy by 1.
+
+Once diagonal moves are done, the only remaining moves are straight (horizontal or vertical), which is simply the difference between the larger and smaller distance. That leftover is:
+
+`max(dx, dy) - min(dx, dy)`
+
+
+# Approach
+
+For each consecutive pair of points:
+1.	Compute dx and dy as the absolute differences in x and y.
+2.	The minimum time to move between them is:
 ```
-Input: points = [[3,2],[-2,2]]
-Output: 5
- ```
+time = min(dx, dy) + (max(dx, dy) - min(dx, dy))
+     = max(dx, dy)
+```
+3.	Sum these times over all pairs of points.
 
-**Constraints:**
+This works because:
+	•	Diagonal moves cover both axes at once.
+	•	Straight moves are only needed when one axis is already aligned.
+	•	Therefore, total time is determined solely by the longer of dx or dy.
 
-- `points.length == n`
-- `1 <= n <= 100`
-- `points[i].length == 2`
-- `-1000 <= points[i][0], points[i][1] <= 1000`
+```
+[x1, y1] = [0, 0]
+[x2, y2] = [4, 2]
+
+dx = 4
+dy = 2
+min(dx, dy) = 2 → 2 diagonal moves
+Leftover = max(dx, dy) - min(dx, dy) = 4 - 2 = 2
+Total time = 2 + 2 = 4
+```
+
+# Complexity
+- Time complexity: O(n), we process each consecutive pair of points once.
+
+# Code
+```typescript []
+function minTimeToVisitAllPoints(points: [number, number][]): number {
+   let time = 0;
+   for(let i=1; i< points.length; i++){
+    const current = points[i-1];
+    const target = points[i];
+    const dx = Math.abs(target[0] - current[0]);
+    const dy = Math.abs(target[1] - current[1]);
+    const dMax = Math.max(dx,dy);
+    time+=dMax;
+    console.log({dMax, time});
+   }
+
+   return time;
+}
+
+```
