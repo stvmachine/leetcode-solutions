@@ -13,4 +13,9 @@ My solutions for leetcode problems
 | ------- | ------- |
 | [0344-reverse-string](https://github.com/stvmachine/leetcode-solutions/tree/main/0344-reverse-string/) | Easy |
 | [0345-reverse-vowels-of-a-string](https://github.com/stvmachine/leetcode-solutions/tree/main/0345-reverse-vowels-of-a-string/) | Easy |
+| [2785-sort-vowels-in-a-string](https://github.com/stvmachine/leetcode-solutions/tree/main/2785-sort-vowels-in-a-string/) | Medium |
+## Sorting
+| Problem Name | Difficulty |
+| ------- | ------- |
+| [2785-sort-vowels-in-a-string](https://github.com/stvmachine/leetcode-solutions/tree/main/2785-sort-vowels-in-a-string/) | Medium |
 <!---LeetCode Topics End-->
